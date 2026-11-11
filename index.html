@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyan" data-mode="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoLuxe • Premium Digital Clock & Time Dashboard</title>
+
+  <!-- Modern Google Fonts with System Font Fallbacks -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- Ambient Glowing Background Elements -->
+  <div class="ambient-glow glow-primary" aria-hidden="true"></div>
+  <div class="ambient-glow glow-secondary" aria-hidden="true"></div>
+  <div class="ambient-glow glow-accent" aria-hidden="true"></div>
+
+  <!-- Main Dashboard Container -->
+  <div class="app-layout">
+
+    <!-- Top Global Header -->
+    <header class="dashboard-header">
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">CHRONO<span class="accent-text">LUXE</span></span>
+          <span class="brand-tag">SpireX Task 6</span>
+        </div>
+      </div>
+
+      <!-- Live Dynamic Greeting Badge -->
+      <div class="greeting-banner" id="greeting-banner">
+        <span class="greeting-icon" id="greeting-icon">👋</span>
+        <span class="greeting-text" id="greeting-text">Welcome back!</span>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div class="header-actions">
+        <!-- 12H / 24H Toggle -->
+        <button type="button" class="header-btn" id="format-toggle" title="Toggle 12 / 24 Hour Format">
+          <span class="btn-text" id="format-label">12H</span>
+        </button>
+
+        <!-- Audio Sound Toggle -->
+        <button type="button" class="header-btn" id="sound-toggle" title="Toggle Audio Feedback">
+          <svg class="icon sound-on-icon" id="sound-on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg class="icon sound-off-icon hidden" id="sound-off-icon" viewBox="0 0 24 24" width="18" height="18"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+        <!-- Accent Color Picker Dropdown Trigger -->
+        <div class="theme-dropdown-container">
+          <button type="button" class="header-btn theme-menu-btn" id="theme-btn" title="Choose Accent Glow">
+            <span class="accent-dot current-accent-dot"></span>
+          </button>
+          <div class="theme-menu" id="theme-menu">
+            <button type="button" class="color-swatch swatch-cyan active" data-color="cyan" title="Cyber Cyan"></button>
+            <button type="button" class="color-swatch swatch-purple" data-color="purple" title="Neon Purple"></button>
+            <button type="button" class="color-swatch swatch-emerald" data-color="emerald"
+              title="Matrix Emerald"></button>
+            <button type="button" class="color-swatch swatch-amber" data-color="amber" title="Solar Amber"></button>
+            <button type="button" class="color-swatch swatch-pink" data-color="pink" title="Electric Pink"></button>
+          </div>
+        </div>
+
+        <!-- Dark / Light Mode Toggle -->
+        <button type="button" class="header-btn" id="mode-toggle" title="Toggle Dark/Light Mode">
+          <svg class="icon moon-icon" id="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="icon sun-icon hidden" id="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <!-- Fullscreen Mode Toggle -->
+        <button type="button" class="header-btn" id="fullscreen-toggle" title="Toggle Fullscreen Mode (F)">
+          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+            </path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="dashboard-nav" aria-label="Main Navigation">
+      <button type="button" class="nav-tab active" data-tab="overview">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Clock & Overview</span>
+      </button>
+
+      <button type="button" class="nav-tab" data-tab="world-clock">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>World Clock</span>
+      </button>
+
+      <button type="button" class="nav-tab" data-tab="stopwatch">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="14" r="8"></circle>
+          <line x1="12" y1="2" x2="12" y2="6"></line>
+          <line x1="9" y1="2" x2="15" y2="2"></line>
+          <polyline points="12 10 12 14 15 14"></polyline>
+        </svg>
+        <span>Stopwatch</span>
+      </button>
+
+      <button type="button" class="nav-tab" data-tab="timer">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M10 2h4m-2 0v4m8 7a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+        </svg>
+        <span>Timer</span>
+      </button>
+
+      <button type="button" class="nav-tab" data-tab="alarms">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span>Alarms</span>
+        <span class="tab-badge" id="active-alarms-badge">0</span>
+      </button>
+
+      <button type="button" class="nav-tab" data-tab="calendar">
+        <svg class="tab-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Calendar</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area with Tab Sections -->
+    <main class="dashboard-content">
+
+      <!-- ===================================================================
+           TAB 1: Overview & Main Clock
+           =================================================================== -->
+      <section class="tab-panel active" id="tab-overview">
+        <div class="overview-grid">
+
+          <!-- Primary Hero Digital Clock Glass Card -->
+          <div class="glass-card hero-clock-card">
+
+            <div class="card-meta-bar">
+              <div class="badge-pill day-pill" id="hero-day-badge">MONDAY</div>
+              <div class="timezone-chip" id="hero-timezone-chip">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                  </path>
+                </svg>
+                <span id="hero-timezone-text">Detecting Local Timezone...</span>
+              </div>
+            </div>
+
+            <!-- Digital Clock Readout -->
+            <div class="digital-readout">
+              <!-- Hours -->
+              <div class="digit-box-wrap">
+                <div class="digit-box" id="clock-hours">00</div>
+                <span class="digit-label">HOURS</span>
+              </div>
+
+              <!-- Colon -->
+              <div class="colon-blink">:</div>
+
+              <!-- Minutes -->
+              <div class="digit-box-wrap">
+                <div class="digit-box" id="clock-minutes">00</div>
+                <span class="digit-label">MINUTES</span>
+              </div>
+
+              <!-- Colon -->
+              <div class="colon-blink">:</div>
+
+              <!-- Seconds -->
+              <div class="digit-box-wrap">
+                <div class="digit-box" id="clock-seconds">00</div>
+                <span class="digit-label">SECONDS</span>
+              </div>
+
+              <!-- AM / PM / Mode Tag -->
+              <div class="meridiem-wrap">
+                <div class="meridiem-box" id="clock-ampm">AM</div>
+                <span class="digit-label" id="clock-mode-indicator">12H</span>
+              </div>
+            </div>
+
+            <!-- Live Full Date Pill -->
+            <div class="date-banner">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span id="hero-full-date">Loading date...</span>
+            </div>
+
+            <!-- 60-Second Real-Time Pulse Track -->
+            <div class="second-progress-wrapper" title="Real-Time Minute Progress">
+              <div class="second-progress-bar" id="minute-progress-bar"></div>
+            </div>
+
+            <!-- Day Progress Stats -->
+            <div class="day-progress-container">
+              <div class="progress-labels">
+                <span>Day Progress</span>
+                <span id="day-progress-pct">0%</span>
+              </div>
+              <div class="day-progress-track">
+                <div class="day-progress-fill" id="day-progress-fill"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Side Column: Analog Clock + Weather Widget -->
+          <div class="overview-side-col">
+
+            <!-- Analog Clock Card -->
+            <div class="glass-card analog-card">
+              <div class="card-header-compact">
+                <h3 class="card-title">Analog Watch</h3>
+                <span class="live-dot" title="Live Synced"></span>
+              </div>
+
+              <div class="analog-clock-container">
+                <div class="analog-dial">
+                  <!-- Dial Numbers -->
+                  <span class="num num-12">12</span>
+                  <span class="num num-3">3</span>
+                  <span class="num num-6">6</span>
+                  <span class="num num-9">9</span>
+
+                  <!-- Hour Marks -->
+                  <div class="dial-mark mark-1"></div>
+                  <div class="dial-mark mark-2"></div>
+                  <div class="dial-mark mark-4"></div>
+                  <div class="dial-mark mark-5"></div>
+                  <div class="dial-mark mark-7"></div>
+                  <div class="dial-mark mark-8"></div>
+                  <div class="dial-mark mark-10"></div>
+                  <div class="dial-mark mark-11"></div>
+
+                  <!-- Moving Clock Hands -->
+                  <div class="hand hour-hand" id="analog-hour-hand"></div>
+                  <div class="hand minute-hand" id="analog-minute-hand"></div>
+                  <div class="hand second-hand" id="analog-second-hand"></div>
+                  <div class="clock-center-pin"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weather Widget Card -->
+            <div class="glass-card weather-card">
+              <div class="card-header-compact">
+                <h3 class="card-title">Local Weather</h3>
+                <button type="button" class="icon-refresh-btn" id="weather-refresh-btn" title="Refresh Weather">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="weather-content" id="weather-content">
+                <div class="weather-main">
+                  <div class="weather-icon-wrap" id="weather-icon-container">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"
+                      id="weather-svg-icon">
+                      <circle cx="12" cy="12" r="5"></circle>
+                      <line x1="12" y1="1" x2="12" y2="3"></line>
+                      <line x1="12" y1="21" x2="12" y2="23"></line>
+                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                      <line x1="1" y1="12" x2="3" y2="12"></line>
+                      <line x1="21" y1="12" x2="23" y2="12"></line>
+                    </svg>
+                  </div>
+                  <div class="weather-temp-group">
+                    <div class="weather-temp" id="weather-temp">--°C</div>
+                    <div class="weather-condition" id="weather-condition">Checking forecast...</div>
+                  </div>
+                </div>
+
+                <div class="weather-meta-row">
+                  <div class="weather-meta-item">
+                    <span class="meta-label">Location</span>
+                    <span class="meta-value" id="weather-location">Local System</span>
+                  </div>
+                  <div class="weather-meta-item">
+                    <span class="meta-label">Humidity</span>
+                    <span class="meta-value" id="weather-humidity">--%</span>
+                  </div>
+                  <div class="weather-meta-item">
+                    <span class="meta-label">Wind</span>
+                    <span class="meta-value" id="weather-wind">-- km/h</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 2: World Clock
+           =================================================================== -->
+      <section class="tab-panel" id="tab-world-clock">
+        <div class="section-top-bar">
+          <div>
+            <h2 class="section-heading">Global Time Zones</h2>
+            <p class="section-sub">Track real-time hours across international commercial hubs</p>
+          </div>
+
+          <!-- Add World Clock Form -->
+          <div class="world-clock-controls">
+            <select id="world-timezone-select" class="form-select">
+              <option value="">Select a time zone to add...</option>
+              <option value="America/New_York|New York|USA">New York (EST/EDT, UTC-5)</option>
+              <option value="Europe/London|London|UK">London (GMT/BST, UTC+0)</option>
+              <option value="Europe/Paris|Paris|France">Paris (CET/CEST, UTC+1)</option>
+              <option value="Asia/Dubai|Dubai|UAE">Dubai (GST, UTC+4)</option>
+              <option value="Asia/Kolkata|New Delhi|India">New Delhi (IST, UTC+5:30)</option>
+              <option value="Asia/Singapore|Singapore|Singapore">Singapore (SGT, UTC+8)</option>
+              <option value="Asia/Tokyo|Tokyo|Japan">Tokyo (JST, UTC+9)</option>
+              <option value="Australia/Sydney|Sydney|Australia">Sydney (AEST/AEDT, UTC+10)</option>
+              <option value="America/Los_Angeles|San Francisco|USA">San Francisco (PST/PDT, UTC-8)</option>
+              <option value="America/Chicago|Chicago|USA">Chicago (CST/CDT, UTC-6)</option>
+              <option value="Europe/Berlin|Berlin|Germany">Berlin (CET/CEST, UTC+1)</option>
+              <option value="Asia/Hong_Kong|Hong Kong|China">Hong Kong (HKT, UTC+8)</option>
+            </select>
+            <button type="button" class="btn btn-primary" id="add-world-clock-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add City</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- World Clock Cards Grid -->
+        <div class="world-clocks-grid" id="world-clocks-grid">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 3: Stopwatch
+           =================================================================== -->
+      <section class="tab-panel" id="tab-stopwatch">
+        <div class="stopwatch-container">
+          <div class="glass-card stopwatch-card">
+
+            <div class="stopwatch-display">
+              <div class="stopwatch-digits" id="stopwatch-display">00:00:00.00</div>
+              <div class="stopwatch-units">
+                <span>HR</span>
+                <span>MIN</span>
+                <span>SEC</span>
+                <span>MS</span>
+              </div>
+            </div>
+
+            <!-- Stopwatch Action Controls -->
+            <div class="stopwatch-buttons">
+              <button type="button" class="btn btn-primary btn-lg" id="stopwatch-start-btn">Start</button>
+              <button type="button" class="btn btn-secondary btn-lg hidden" id="stopwatch-pause-btn">Pause</button>
+              <button type="button" class="btn btn-outline btn-lg" id="stopwatch-lap-btn" disabled>Lap</button>
+              <button type="button" class="btn btn-danger btn-lg" id="stopwatch-reset-btn" disabled>Reset</button>
+            </div>
+
+            <!-- Laps Section -->
+            <div class="stopwatch-laps-wrapper">
+              <div class="laps-header">
+                <h3>Recorded Laps (<span id="laps-count">0</span>)</h3>
+                <button type="button" class="link-btn" id="clear-laps-btn" disabled>Clear Laps</button>
+              </div>
+              <div class="laps-list" id="stopwatch-laps-list">
+                <div class="empty-laps-state">Press "Lap" while running to record split times.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 4: Countdown Timer
+           =================================================================== -->
+      <section class="tab-panel" id="tab-timer">
+        <div class="timer-container">
+          <div class="glass-card timer-card">
+
+            <!-- Circular Progress Ring & Time View -->
+            <div class="timer-display-wrap">
+              <svg class="timer-ring-svg" viewBox="0 0 240 240">
+                <circle class="timer-ring-bg" cx="120" cy="120" r="105"></circle>
+                <circle class="timer-ring-progress" id="timer-progress-ring" cx="120" cy="120" r="105"></circle>
+              </svg>
+              <div class="timer-inner-content">
+                <div class="timer-digits" id="timer-digits-display">00:00:00</div>
+                <div class="timer-status-tag" id="timer-status-text">Ready</div>
+              </div>
+            </div>
+
+            <!-- Timer Quick Preset Pills -->
+            <div class="timer-presets">
+              <button type="button" class="preset-pill" data-seconds="60">1 Min</button>
+              <button type="button" class="preset-pill" data-seconds="300">5 Min</button>
+              <button type="button" class="preset-pill" data-seconds="900">15 Min</button>
+              <button type="button" class="preset-pill" data-seconds="1500">25 Min (Pomodoro)</button>
+              <button type="button" class="preset-pill" data-seconds="3600">1 Hour</button>
+            </div>
+
+            <!-- Custom Input Controls -->
+            <div class="timer-inputs-row" id="timer-input-group">
+              <div class="time-input-box">
+                <input type="number" id="timer-input-hours" min="0" max="99" value="0" placeholder="00">
+                <label for="timer-input-hours">HOURS</label>
+              </div>
+              <span class="timer-sep">:</span>
+              <div class="time-input-box">
+                <input type="number" id="timer-input-minutes" min="0" max="59" value="5" placeholder="05">
+                <label for="timer-input-minutes">MINUTES</label>
+              </div>
+              <span class="timer-sep">:</span>
+              <div class="time-input-box">
+                <input type="number" id="timer-input-seconds" min="0" max="59" value="0" placeholder="00">
+                <label for="timer-input-seconds">SECONDS</label>
+              </div>
+            </div>
+
+            <!-- Timer Buttons -->
+            <div class="timer-action-buttons">
+              <button type="button" class="btn btn-primary btn-lg" id="timer-start-btn">Start Timer</button>
+              <button type="button" class="btn btn-secondary btn-lg hidden" id="timer-pause-btn">Pause</button>
+              <button type="button" class="btn btn-outline btn-lg" id="timer-reset-btn">Reset</button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 5: Alarm Manager
+           =================================================================== -->
+      <section class="tab-panel" id="tab-alarms">
+        <div class="alarms-container">
+
+          <div class="section-top-bar">
+            <div>
+              <h2 class="section-heading">Smart Alarm Manager</h2>
+              <p class="section-sub">Set personalized waking and reminder alarms with audio chimes</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="open-alarm-modal-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Set New Alarm</span>
+            </button>
+          </div>
+
+          <!-- Alarms List Grid -->
+          <div class="alarms-grid" id="alarms-list-container">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 6: Calendar
+           =================================================================== -->
+      <section class="tab-panel" id="tab-calendar">
+        <div class="calendar-layout">
+
+          <div class="glass-card calendar-card">
+
+            <!-- Calendar Navigation Header -->
+            <div class="calendar-header-nav">
+              <div class="cal-title-group">
+                <h2 class="calendar-month-year" id="cal-month-year">November 2026</h2>
+                <span class="badge-pill" id="cal-today-pill">Today</span>
+              </div>
+              <div class="cal-nav-buttons">
+                <button type="button" class="btn btn-outline cal-nav-btn" id="cal-prev-btn" title="Previous Month">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <button type="button" class="btn btn-outline cal-today-btn" id="cal-today-jump-btn">Current
+                  Month</button>
+                <button type="button" class="btn btn-outline cal-nav-btn" id="cal-next-btn" title="Next Month">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Calendar Days Grid -->
+            <div class="calendar-weekdays-row">
+              <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+            </div>
+
+            <div class="calendar-dates-grid" id="calendar-dates-grid">
+              <!-- Dynamically populated via JS -->
+            </div>
+
+          </div>
+
+          <!-- Calendar Side Glance Info -->
+          <div class="glass-card calendar-info-card">
+            <h3 class="card-title">Date Information</h3>
+            <div class="date-stat-list">
+              <div class="date-stat-item">
+                <span class="stat-label">Selected Date</span>
+                <span class="stat-val" id="cal-selected-date-str">November 11, 2026</span>
+              </div>
+              <div class="date-stat-item">
+                <span class="stat-label">Day of the Week</span>
+                <span class="stat-val" id="cal-selected-day-str">Wednesday</span>
+              </div>
+              <div class="date-stat-item">
+                <span class="stat-label">Day of the Year</span>
+                <span class="stat-val" id="cal-day-of-year">Day 315 / 365</span>
+              </div>
+              <div class="date-stat-item">
+                <span class="stat-label">Current Week</span>
+                <span class="stat-val" id="cal-week-of-year">Week 46</span>
+              </div>
+              <div class="date-stat-item">
+                <span class="stat-label">Days in Month</span>
+                <span class="stat-val" id="cal-days-in-month">30 Days</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Global Dashboard Footer -->
+    <footer class="dashboard-footer">
+      <div class="footer-shortcuts">
+        <span>Quick Keys:</span>
+        <kbd>1-6</kbd> Switch Tabs
+        <kbd>F</kbd> Fullscreen
+        <kbd>M</kbd> 12/24H
+        <kbd>S</kbd> Sound
+        <kbd>T</kbd> Accent
+      </div>
+      <p class="footer-copy">ChronoLuxe v2.0 • Pure Vanilla Web Stack • SpireX Foundation Internship Task 6 Submission
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- =====================================================================
+       MODALS & OVERLAYS
+       ===================================================================== -->
+
+  <!-- Add/Edit Alarm Modal -->
+  <div class="modal-overlay hidden" id="alarm-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="alarm-modal-title">Set New Alarm</h3>
+        <button type="button" class="modal-close-btn" id="close-alarm-modal-btn">&times;</button>
+      </div>
+
+      <form id="alarm-form" class="modal-form">
+        <input type="hidden" id="alarm-edit-id" value="">
+
+        <div class="form-group">
+          <label for="alarm-time-input">Alarm Time</label>
+          <input type="time" id="alarm-time-input" class="form-input" required value="07:00">
+        </div>
+
+        <div class="form-group">
+          <label for="alarm-label-input">Label / Reminder</label>
+          <input type="text" id="alarm-label-input" class="form-input" placeholder="e.g. Morning Standup, Workout..."
+            maxlength="30" value="Morning Alarm">
+        </div>
+
+        <div class="form-group">
+          <label>Repeat Days</label>
+          <div class="repeat-days-selector">
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="0"><span>S</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="1" checked><span>M</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="2" checked><span>T</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="3" checked><span>W</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="4" checked><span>T</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="5" checked><span>F</span></label>
+            <label class="day-chip"><input type="checkbox" name="alarm-day" value="6"><span>S</span></label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancel-alarm-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-alarm-btn">Save Alarm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Active Ringing Alarm / Timer Alert Modal -->
+  <div class="modal-overlay hidden alert-modal-overlay" id="ringing-modal">
+    <div class="modal-card ringing-card">
+      <div class="ringing-bell-icon">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </div>
+      <h2 class="ringing-title" id="ringing-title">Alarm Triggered!</h2>
+      <p class="ringing-message" id="ringing-message">Your scheduled alarm is ringing right now.</p>
+
+      <div class="ringing-actions">
+        <button type="button" class="btn btn-secondary btn-lg" id="snooze-alarm-btn">Snooze (5 Min)</button>
+        <button type="button" class="btn btn-primary btn-lg" id="dismiss-alarm-btn">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Floating Return Button -->
+  <button type="button" class="exit-fullscreen-btn hidden" id="exit-fullscreen-btn" title="Exit Fullscreen (ESC)">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+    <span>Exit Fullscreen</span>
+  </button>
+
+  <!-- External JavaScript Engine -->
+  <script src="script.js"></script>
+</body>
+
+</html>
