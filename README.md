@@ -190,5 +190,6 @@ graph TD
 - [x] Responsive layout across desktop, tablet, and mobile.
 - [x] Separated into `index.html`, `style.css`, and `script.js`.
 - [x] Production-quality, modular, and error-free code suitable for portfolio and internship submission.
-#   D I G I T A L - C L O C K  
+#   D I G I T A L - C L O C K 
+ 
  
